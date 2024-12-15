@@ -2,12 +2,16 @@
 
 namespace Mirarus\TeamSpeakDNS;
 
+use stdClass;
+
 class Dns
 {
-
     private $authorization;
     private $request;
 
+    /**
+     * @param Authorization $authorization
+     */
     public function __construct(Authorization $authorization)
     {
         $this->authorization = $authorization;
@@ -19,11 +23,20 @@ class Dns
         ]);
     }
 
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->request->get('servers')->data;
     }
 
+    /**
+     * @param $name
+     * @param $ip
+     * @param int $port
+     * @return mixed|stdClass|string
+     */
     public function create($name, $ip, int $port)
     {
         return $this->request->post('servers', [
@@ -38,6 +51,13 @@ class Dns
         ]);
     }
 
+    /**
+     * @param $sid
+     * @param $name
+     * @param $ip
+     * @param int $port
+     * @return mixed|stdClass|string
+     */
     public function update($sid, $name, $ip, int $port)
     {
         return $this->request->put('servers/' . $sid, [
@@ -53,6 +73,10 @@ class Dns
         ]);
     }
 
+    /**
+     * @param $sid
+     * @return mixed|stdClass|string
+     */
     public function delete($sid)
     {
         return $this->request->delete('servers/' . $sid);
