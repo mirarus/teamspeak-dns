@@ -1,0 +1,26 @@
+{
+    "name": "mirarus/teamspeak-dns",
+    "description": "TeamSpeak Short DNS Service API",
+    "license": "MIT",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Mirarus\\TeamSpeakDNS\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ali Güçlü",
+            "email": "aliguclutr@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "guzzlehttp/guzzle": "^7.9"
+    },
+    "config": {
+        "platform": {
+          "php": "7.3.0"
+        }
+      }
+}
