@@ -9,6 +9,7 @@ composer require mirarus/teamspeak-dns
 require "vendor/autoload.php";
 
 use Mirarus\TeamSpeakDNS\Authorization;
+
 use Mirarus\TeamSpeakDNS\Dns;
 
 $authorization = new Authorization("--email--", "--password--"); 
