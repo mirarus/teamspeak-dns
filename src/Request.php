@@ -17,13 +17,19 @@ class Request
     private $options;
     private $client;
 
-    public function __construct(array $options = [])
+	/**
+	 * @param array $options
+	 */
+	public function __construct(array $options = [])
     {
         $this->options = $options;
         $this->client = $this->createClient();
     }
 
-    private function createClient(): Client
+	/**
+	 * @return Client
+	 */
+	private function createClient(): Client
     {
         $config = array_merge([
             'base_uri' => $this->baseUri,
@@ -37,7 +43,11 @@ class Request
         return new Client($config);
     }
 
-    private function createRequest($response)
+	/**
+	 * @param $response
+	 * @return mixed|stdClass
+	 */
+	private function createRequest($response)
     {
         $body = json_decode($response->getBody());
 
@@ -49,7 +59,12 @@ class Request
         return $body;
     }
 
-    public function post(string $endpoint, array $data = [])
+	/**
+	 * @param string $endpoint
+	 * @param array $data
+	 * @return mixed|stdClass|string
+	 */
+	public function post(string $endpoint, array $data = [])
     {
         try {
             $response = $this->client->post($endpoint, ['json' => $data]);
@@ -59,7 +74,11 @@ class Request
         }
     }
 
-    public function get(string $endpoint)
+	/**
+	 * @param string $endpoint
+	 * @return mixed|stdClass|string
+	 */
+	public function get(string $endpoint)
     {
         try {
             $response = $this->client->get($endpoint);
@@ -69,7 +88,12 @@ class Request
         }
     }
 
-    public function put(string $endpoint, array $data = [])
+	/**
+	 * @param string $endpoint
+	 * @param array $data
+	 * @return mixed|stdClass|string
+	 */
+	public function put(string $endpoint, array $data = [])
     {
         try {
             $response = $this->client->put($endpoint, ['json' => $data]);
@@ -79,7 +103,11 @@ class Request
         }
     }
 
-    public function delete(string $endpoint)
+	/**
+	 * @param string $endpoint
+	 * @return mixed|stdClass|string
+	 */
+	public function delete(string $endpoint)
     {
         try {
             $response = $this->client->delete($endpoint);
