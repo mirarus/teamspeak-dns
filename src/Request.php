@@ -50,13 +50,11 @@ class Request
     public function post(string $endpoint, array $data = [])
     {
         try {
-            
+
             $response = $this->client->post($endpoint, ['json' => $data]);
             return $this->createRequest($response);
-        } catch (ClientException $e) {
+        } catch (ClientException | RequestException | Exception $e) {
             return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
-        } catch (RequestException | Exception $e) {
-            return $e->getMessage();
         }
     }
 
@@ -66,10 +64,8 @@ class Request
 
             $response = $this->client->get($endpoint);
             return $this->createRequest($response);
-        } catch (ClientException $e) {
+        } catch (ClientException | RequestException | Exception $e) {
             return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
-        } catch (RequestException | Exception $e) {
-            return $e->getMessage();
         }
     }
 
@@ -79,10 +75,8 @@ class Request
 
             $response = $this->client->put($endpoint, ['json' => $data]);
             return $this->createRequest($response);
-        } catch (ClientException $e) {
+        } catch (ClientException | RequestException | Exception $e) {
             return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
-        } catch (RequestException | Exception $e) {
-            return $e->getMessage();
         }
     }
 
@@ -92,10 +86,8 @@ class Request
 
             $response = $this->client->delete($endpoint);
             return $this->createRequest($response);
-        } catch (ClientException $e) {
+        } catch (ClientException | RequestException | Exception $e) {
             return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
-        } catch (RequestException | Exception $e) {
-            return $e->getMessage();
         }
     }
 }
