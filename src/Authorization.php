@@ -17,7 +17,7 @@ class Authorization
         $this->request = new Request();
     }
 
-    function login()
+    public function login()
     {
         $hashedPassword = Hash::hashedPassword($this->password, $this->email);
 
