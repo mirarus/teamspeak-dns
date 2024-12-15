@@ -19,7 +19,7 @@ class Authorization
 
     public function login()
     {
-        $hashedPassword = Hash::hashedPassword($this->password, $this->email);
+        $hashedPassword = Hash::ts3Login($this->password, $this->email);
 
         $response = $this->request->post('login', [
             'email' => $this->email,
