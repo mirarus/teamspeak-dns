@@ -9,7 +9,7 @@ namespace Mirarus\TeamSpeakDNS;
  * @author     Ali Güçlü <aliguclutr@gmail.com>
  * @copyright  Copyright (c) 2024
  * @license    MIT
- * @version    1.0.0
+ * @version    1.0.1
  * @since      1.0.0
  */
 class Authorization
@@ -37,9 +37,11 @@ class Authorization
 	{
 		$hashedPassword = Hash::ts3Login($this->email, $this->password);
 
-		return $this->request->post('login', [
+		$response = $this->request->post('login', [
 		  'email' => $this->email,
 		  'password' => $hashedPassword
-		])->data;
+		]);
+
+		return $response->data ?? $response;
 	}
 }

@@ -11,7 +11,7 @@ use stdClass;
  * @author     Ali Güçlü <aliguclutr@gmail.com>
  * @copyright  Copyright (c) 2024
  * @license    MIT
- * @version    1.0.1
+ * @version    1.0.2
  * @since      1.0.0
  */
 class Dns
@@ -28,7 +28,7 @@ class Dns
 
 		$this->request = new Request([
 		  'headers' => [
-			'Authorization' => "Bearer " . $this->authorization->login()->sessionId
+			'Authorization' => "Bearer " . ($this->authorization->login()->sessionId ?? '')
 		  ]
 		]);
 	}

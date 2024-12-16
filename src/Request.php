@@ -16,7 +16,7 @@ use GuzzleHttp\Exception\RequestException;
  * @author     Ali Güçlü <aliguclutr@gmail.com>
  * @copyright  Copyright (c) 2024
  * @license    MIT
- * @version    1.0.0
+ * @version    1.0.1
  * @since      1.0.0
  */
 class Request
@@ -80,7 +80,7 @@ class Request
             $response = $this->client->post($endpoint, ['json' => $data]);
             return $this->createRequest($response);
         } catch (GuzzleException | ClientException | RequestException | Exception $e) {
-            return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
+            return $this->createRequest($e->getResponse()) ?: $e->getMessage();
         }
     }
 
@@ -94,7 +94,7 @@ class Request
             $response = $this->client->get($endpoint);
             return $this->createRequest($response);
         } catch (GuzzleException | ClientException | RequestException | Exception $e) {
-            return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
+	        return $this->createRequest($e->getResponse()) ?: $e->getMessage();
         }
     }
 
@@ -109,7 +109,7 @@ class Request
             $response = $this->client->put($endpoint, ['json' => $data]);
             return $this->createRequest($response);
         } catch (GuzzleException | ClientException | RequestException | Exception $e) {
-            return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
+	        return $this->createRequest($e->getResponse()) ?: $e->getMessage();
         }
     }
 
@@ -123,7 +123,7 @@ class Request
             $response = $this->client->delete($endpoint);
             return $this->createRequest($response);
         } catch (GuzzleException | ClientException | RequestException | Exception $e) {
-            return json_decode($e->getResponse()->getBody()) ?: $e->getMessage();
+	        return $this->createRequest($e->getResponse()) ?: $e->getMessage();
         }
     }
 }
