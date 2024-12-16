@@ -6,6 +6,13 @@ require "vendor/autoload.php";
 
 use Mirarus\TeamSpeakDNS\Authorization;
 use Mirarus\TeamSpeakDNS\Dns;
+use Mirarus\TeamSpeakDNS\Register;
+/*
+$register = new Register();
+print_r($register->register("infoaligucludev", "info@aliguclu.dev", "infoaligucludev"));
+print_r($register->activate("info@aliguclu.dev", "mirarustrx"));
+*/
+
 
 $authorization = new Authorization("--myteamspeak.com--email--", "--myteamspeak.com-password--");
 
