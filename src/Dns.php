@@ -33,6 +33,9 @@ class Dns
 		]);
 	}
 
+	/**
+	 * @return stdClass
+	 */
 	public function list(): stdClass
 	{
 		$data = $this->request->get('servers')->data;
