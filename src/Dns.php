@@ -11,7 +11,7 @@ use stdClass;
  * @author     Ali Güçlü <aliguclutr@gmail.com>
  * @copyright  Copyright (c) 2025
  * @license    MIT
- * @version    1.0.3
+ * @version    1.0.4
  * @since      1.0.0
  */
 class Dns
@@ -38,23 +38,25 @@ class Dns
 	 */
 	public function list(): stdClass
 	{
-		$data = $this->request->get('servers')->data;
-		
 		$body = new stdClass();
 		$body->items = [];
 		$body->count = 0;
 		
-		foreach ($data->items as $item) {
-			if ($item->data->target->type !== "IP") {
-				continue;
+		$serverList = $this->request->get('servers');
+		
+		if (@$serverList->data) {
+			foreach ($serverList->data->items as $item) {
+				if ($item->data->target->type !== "IP") {
+					continue;
+				}
+				
+				$body->items[] = (object)[
+				  'id' => str_replace('/servers/', '', $item->resources->self->uri),
+				  'name' => $item->data->nick ?? '',
+				  'host' => $item->data->target->ipv4->host ?? '',
+				  'port' => $item->data->target->ipv4->port ?? ''
+				];
 			}
-			
-			$body->items[] = (object)[
-			  'id' => str_replace('/servers/', '', $item->resources->self->uri),
-			  'name' => $item->data->nick ?? '',
-			  'host' => $item->data->target->ipv4->host ?? '',
-			  'port' => $item->data->target->ipv4->port ?? ''
-			];
 		}
 		
 		$body->count = count($body->items);
