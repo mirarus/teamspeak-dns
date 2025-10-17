@@ -9,46 +9,46 @@ use stdClass;
  *
  * @package    Mirarus\TeamSpeakDNS
  * @author     Ali Güçlü <aliguclutr@gmail.com>
- * @copyright  Copyright (c) 2024
+ * @copyright  Copyright (c) 2025
  * @license    MIT
- * @version    1.0.2
+ * @version    1.0.3
  * @since      1.0.0
  */
 class Dns
 {
 	private $authorization;
 	private $request;
-
+	
 	/**
-	 * @param Authorization $authorization
+	 * @param  Authorization  $authorization
 	 */
 	public function __construct(Authorization $authorization)
 	{
 		$this->authorization = $authorization;
-
+		
 		$this->request = new Request([
 		  'headers' => [
-			'Authorization' => "Bearer " . ($this->authorization->login()->sessionId ?? '')
+			'Authorization' => "Bearer ".($this->authorization->login()->sessionId ?? '')
 		  ]
 		]);
 	}
-
+	
 	/**
 	 * @return stdClass
 	 */
 	public function list(): stdClass
 	{
 		$data = $this->request->get('servers')->data;
-
+		
 		$body = new stdClass();
 		$body->items = [];
 		$body->count = 0;
-
+		
 		foreach ($data->items as $item) {
 			if ($item->data->target->type !== "IP") {
 				continue;
 			}
-
+			
 			$body->items[] = (object)[
 			  'id' => str_replace('/servers/', '', $item->resources->self->uri),
 			  'name' => $item->data->nick ?? '',
@@ -56,19 +56,20 @@ class Dns
 			  'port' => $item->data->target->ipv4->port ?? ''
 			];
 		}
-
+		
 		$body->count = count($body->items);
-
+		
 		return $body;
 	}
-
+	
+	
 	/**
-	 * @param $name
-	 * @param $host
-	 * @param int $port
+	 * @param  string  $name
+	 * @param  string  $host
+	 * @param  int  $port
 	 * @return mixed|stdClass|string
 	 */
-	public function create($name, $host, int $port)
+	public function create(string $name, string $host, int $port)
 	{
 		return $this->request->post('servers', [
 		  'nick' => $name,
@@ -81,17 +82,17 @@ class Dns
 		  ]
 		]);
 	}
-
+	
 	/**
-	 * @param $id
-	 * @param $name
-	 * @param $host
-	 * @param int $port
+	 * @param  string  $id
+	 * @param  string  $name
+	 * @param  string  $host
+	 * @param  int  $port
 	 * @return mixed|stdClass|string
 	 */
-	public function update($id, $name, $host, int $port)
+	public function update(string $id, string $name, string $host, int $port)
 	{
-		return $this->request->put('servers/' . $id, [
+		return $this->request->put('servers/'.$id, [
 		  'typeModified' => false,
 		  'nick' => $name,
 		  'target' => [
@@ -103,13 +104,13 @@ class Dns
 		  ]
 		]);
 	}
-
+	
 	/**
-	 * @param $id
+	 * @param  string  $id
 	 * @return mixed|stdClass|string
 	 */
-	public function delete($id)
+	public function delete(string $id)
 	{
-		return $this->request->delete('servers/' . $id);
+		return $this->request->post('servers/'.$id.'/delete', $this->authorization->getUserCredentials());
 	}
 }
